@@ -71,7 +71,7 @@ students = input_students
 print_header
 print(students)
 #print_A(students)
-#print_short(students)
+
 print_footer(students)
 print_cohort(students)
 #print_while(students)
