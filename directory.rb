@@ -21,7 +21,17 @@ def print_header
 end
 
 def print(students)
-	puts students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)"}
+	students.each_with_index { |student, index| puts "#{index+1} #{student[:name]} (#{student[:cohort]} cohort)"}
+end
+
+def print_A(students)
+	puts "And the students whose names start with A are:"
+	students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?("A") }
+end
+
+def print_short(students)
+	puts "Students with names shorter than 12 chars:"
+	students.each { |student| puts "#{student[:name]}" if student[:name].length < 12 }
 end
 
 def print_footer(names)
@@ -31,6 +41,9 @@ end
 
 
 students = input_students
+
 print_header
 print(students)
+print_A(students)
+print_short(students)
 print_footer(students)
