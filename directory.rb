@@ -1,5 +1,3 @@
-# Prints the list of students
-puts "The students of the August cohort at Makers Academy:"
 students = [
  "Javier Silverio",
  "Elliot Lewis",
@@ -29,4 +27,19 @@ students = [
 
 students.each { |student| puts student }
 
-puts "Overall, we have #{students.length} students!"
+def print_header
+	puts "The students of the August cohort at Makers Academy:"
+end
+
+def print(names)
+	names.each {|name| puts name}
+end
+
+def print_footer(names)
+	puts "Overall, we have #{names.length} great students"
+end
+
+
+print_header
+print(students)
+print_footer(students)
