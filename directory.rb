@@ -6,6 +6,7 @@ def input_students
 	# get the first name
 	name = gets.chomp
 	cohort = gets.chomp
+	cohort = "August" if cohort.empty?
 	hobby = gets.chomp
 	# while the name is not empty, repeat this code
 	while !name.empty? do
@@ -15,6 +16,7 @@ def input_students
 	# get another name from the user
 	name = gets.chomp
 	cohort = gets.chomp
+	cohort = "August" if cohort.empty?
 	hobby = gets.chomp
 	end
 	students
@@ -32,7 +34,7 @@ def print_while(students)
 	puts "(Printing students with while condition)"
 	i = 0
 	until i >= students.length 
-		puts "#{students[i][:name]}"
+		puts "#{students[i][:name]}".center(20, "-------")
 		i += 1
 	end
 end
