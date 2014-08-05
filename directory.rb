@@ -1,3 +1,26 @@
+def interactive_menu
+	students = []
+	loop do
+		# First, print a menu and get the user's input
+		puts "1. Input students"
+		puts "2. Show students"
+		puts "9. Exit"
+		selection = gets.chomp
+		case selection
+			when "1"
+				students = input_students
+			when "2"
+				print_header
+				print(students)
+				print_footer(students)
+			when "9"
+				exit # program terminates
+			else
+				puts "I don't know what you meant, try again"
+		end
+	end
+end
+
 def input_students
 	puts "Please enter the names, cohort and hobby of the students"
 	puts "To finish, just hit return thrice"
@@ -64,12 +87,14 @@ end
 
 
 
-students = input_students
+#students = input_students
 
-print_header
-print(students)
+#print_header
+#print(students)
 #print_A(students)
 
-print_footer(students)
+#print_footer(students)
 #print_while(students)
-print_by_cohort(students)
+#print_by_cohort(students)
+
+interactive_menu
