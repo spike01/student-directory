@@ -34,9 +34,7 @@ end
 def print_by_cohort(students)
 	students.sort[:cohort]
 	puts "Here are the students by cohort:"
-	students.each do |student|
-		puts "#{student[:name]}, #{student[:cohort]}"
-	end
+	students.each { |student| puts "#{student[:name]}, #{student[:cohort]}" }
 end
 
 =begin
