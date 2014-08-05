@@ -5,18 +5,19 @@ def input_students
 	students = []
 	# get the first name
 	name = gets.chomp
-	cohort = gets.chomp
-	cohort = "August" if cohort.empty?
+	cohort = gets.chomp.downcase.to_sym
+	cohort = :august if cohort.empty?
 	hobby = gets.chomp
 	# while the name is not empty, repeat this code
 	while !name.empty? do
 	# add the student hash to the array
 	students << {:name => name, :cohort => cohort, :hobby => hobby}
-	puts "Now we have #{students.length} students"
+	puts "Now we have #{students.length} student" if students.length == 1
+	puts "Now we have #{students.length} students" if students.length >= 2
 	# get another name from the user
 	name = gets.chomp
-	cohort = gets.chomp
-	cohort = "August" if cohort.empty?
+	cohort = gets.chomp.downcase.to_sym
+	cohort = :august if cohort.empty?
 	hobby = gets.chomp
 	end
 	students
@@ -30,6 +31,8 @@ def print(students)
 	students.each_with_index { |student, index| puts "#{index+1} #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}"}
 end
 
+
+=begin
 def print_while(students)
 	puts "(Printing students with while condition)"
 	i = 0
@@ -38,7 +41,6 @@ def print_while(students)
 		i += 1
 	end
 end
-
 
 def print_A(students)
 	puts "And the students whose names start with A are:"
@@ -49,6 +51,7 @@ def print_short(names)
 	puts "Students with names shorter than 12 chars:"
 	names.each { |student| puts "#{student[:name]}" if student[:name].length < 12 }
 end
+=end
 
 def print_footer(names)
 	puts "Overall, we have #{names.length} great students"
@@ -60,7 +63,7 @@ students = input_students
 
 print_header
 print(students)
-print_A(students)
-print_short(students)
+#print_A(students)
+#print_short(students)
 print_footer(students)
-print_while(students)
+#print_while(students)
