@@ -31,6 +31,13 @@ def print(students)
 	students.each_with_index { |student, index| puts "#{index+1} #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}"}
 end
 
+def print_by_cohort(students)
+	students.sort[:cohort]
+	puts "Here are the students by cohort:"
+	students.each do |student|
+		puts "#{student[:name]}, #{student[:cohort]}"
+	end
+end
 
 =begin
 def print_while(students)
@@ -67,3 +74,4 @@ print(students)
 #print_short(students)
 print_footer(students)
 #print_while(students)
+print_by_cohort(students)
