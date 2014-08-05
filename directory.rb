@@ -4,29 +4,35 @@ def interactive_menu
 	loop do
 		# First, print a menu and get the user's input
 		print_menu
-		selection = gets.chomp
-		case selection
-			when "1"
-				input_students
-			when "2"
-				show_students
-			when "9"
-				exit # program terminates
-			else
-				puts "I don't know what you meant, try again"
-		end
+		process(gets.chomp)
+	end
+end
+
+def process(selection)
+	case selection
+	when "1"
+		input_students
+	when "2"
+		show_students
+	when "3"
+		save_students
+	when "9"
+		exit 
+	else
+		puts "I don't know what you meant, try again."
 	end
 end
 
 def print_menu
 		puts "1. Input students"
 		puts "2. Show students"
+		puts "3. Save students"
 		puts "9. Exit"
 end
 
 def show_students
 	print_header
-	print
+	print_students_list
 	print_footer
 end
 
@@ -56,7 +62,7 @@ def print_header
 	puts "The students of the August cohort at Makers Academy:"
 end
 
-def print
+def print_students_list
 	@students.each_with_index { |student, index| puts "#{index+1} #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}"}
 end
 
@@ -64,6 +70,19 @@ def print_by_cohort
 	@students.sort[:cohort]
 	puts "Here are the students by cohort:"
 	@students.each { |student| puts "#{student[:name]}, #{student[:cohort]}" }
+end
+
+def save_students
+	# open the file for writing
+	file = File.open("students.csv", "w")
+	#iterate over students
+	@students.each do |student|
+		student_data = [student[:name], student[:cohort], student[:hobby]]
+		csv_line = student_data.join(",")
+		file.puts csv_line
+	end
+	puts "Students saved!"
+	file.close
 end
 
 =begin
