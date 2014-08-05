@@ -1,18 +1,15 @@
+@students = []
+
 def interactive_menu
-	students = []
 	loop do
 		# First, print a menu and get the user's input
-		puts "1. Input students"
-		puts "2. Show students"
-		puts "9. Exit"
+		print_menu
 		selection = gets.chomp
 		case selection
 			when "1"
-				students = input_students
+				input_students
 			when "2"
-				print_header
-				print(students)
-				print_footer(students)
+				show_students
 			when "9"
 				exit # program terminates
 			else
@@ -21,11 +18,21 @@ def interactive_menu
 	end
 end
 
+def print_menu
+		puts "1. Input students"
+		puts "2. Show students"
+		puts "9. Exit"
+end
+
+def show_students
+	print_header
+	print
+	print_footer
+end
+
 def input_students
 	puts "Please enter the names, cohort and hobby of the students"
 	puts "To finish, just hit return thrice"
-	#create an empty array
-	students = []
 	# get the first name
 	name = gets.chomp
 	cohort = gets.chomp.downcase.to_sym
@@ -34,30 +41,29 @@ def input_students
 	# while the name is not empty, repeat this code
 	while !name.empty? do
 	# add the student hash to the array
-	students << {:name => name, :cohort => cohort, :hobby => hobby}
-	puts "Now we have #{students.length} student" if students.length == 1
-	puts "Now we have #{students.length} students" if students.length >= 2
+	@students << {:name => name, :cohort => cohort, :hobby => hobby}
+	puts "Now we have #{@students.length} student" if @students.length == 1
+	puts "Now we have #{@students.length} students" if @students.length >= 2
 	# get another name from the user
 	name = gets.chomp
 	cohort = gets.chomp.downcase.to_sym
 	cohort = :august if cohort.empty?
 	hobby = gets.chomp
 	end
-	students
 end
 
 def print_header
 	puts "The students of the August cohort at Makers Academy:"
 end
 
-def print(students)
-	students.each_with_index { |student, index| puts "#{index+1} #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}"}
+def print
+	@students.each_with_index { |student, index| puts "#{index+1} #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}"}
 end
 
-def print_by_cohort(students)
-	students.sort[:cohort]
+def print_by_cohort
+	@students.sort[:cohort]
 	puts "Here are the students by cohort:"
-	students.each { |student| puts "#{student[:name]}, #{student[:cohort]}" }
+	@students.each { |student| puts "#{student[:name]}, #{student[:cohort]}" }
 end
 
 =begin
@@ -81,8 +87,8 @@ def print_short(names)
 end
 =end
 
-def print_footer(names)
-	puts "Overall, we have #{names.length} great students"
+def print_footer
+	puts "Overall, we have #{@students.length} great students"
 end
 
 
