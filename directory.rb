@@ -4,10 +4,10 @@ def input_students
 	#create an empty array
 	students = []
 	# get the first name
-	name = gets[-1]
-	cohort = gets[-1].downcase.to_sym
+	name = gets.chomp
+	cohort = gets.chomp.downcase.to_sym
 	cohort = :august if cohort.empty?
-	hobby = gets[-1]
+	hobby = gets.chomp
 	# while the name is not empty, repeat this code
 	while !name.empty? do
 	# add the student hash to the array
@@ -31,13 +31,13 @@ def print(students)
 	students.each_with_index { |student, index| puts "#{index+1} #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}"}
 end
 
-def print_cohort(students)
-	puts "The students sorted by cohort:"
-	students.sort_by {|s| s[:cohort]}
-	puts students
+def print_by_cohort(students)
+	students.sort[:cohort]
+	puts "Here are the students by cohort:"
+	students.each do |student|
+		puts "#{student[:name]}, #{student[:cohort]}"
+	end
 end
-
-
 
 =begin
 def print_while(students)
@@ -73,5 +73,5 @@ print(students)
 #print_A(students)
 
 print_footer(students)
-print_cohort(students)
 #print_while(students)
+print_by_cohort(students)
