@@ -3,8 +3,9 @@
 def interactive_menu
 	loop do
 		# First, print a menu and get the user's input
+		try_load_students
 		print_menu
-		process(gets.chomp)
+		process(STDIN.gets.chomp)
 	end
 end
 
@@ -43,10 +44,10 @@ def input_students
 	puts "Please enter the names, cohort and hobby of the students"
 	puts "To finish, just hit return thrice"
 	# get the first name
-	name = gets.chomp
-	cohort = gets.chomp.downcase.to_sym
+	name = STDIN.gets.chomp
+	cohort = STDIN.gets.chomp.downcase.to_sym
 	cohort = :august if cohort.empty?
-	hobby = gets.chomp
+	hobby = STDIN.gets.chomp
 	# while the name is not empty, repeat this code
 	while !name.empty? do
 	# add the student hash to the array
@@ -54,10 +55,10 @@ def input_students
 	puts "Now we have #{@students.length} student" if @students.length == 1
 	puts "Now we have #{@students.length} students" if @students.length >= 2
 	# get another name from the user
-	name = gets.chomp
-	cohort = gets.chomp.downcase.to_sym
+	name = STDIN.gets.chomp
+	cohort = STDIN.gets.chomp.downcase.to_sym
 	cohort = :august if cohort.empty?
-	hobby = gets.chomp
+	hobby = STDIN.gets.chomp
 	end
 end
 
@@ -88,8 +89,8 @@ def save_students
 	file.close
 end
 
-def load_students
-	file = File.open("students.csv", "r")
+def load_students(filename = 'students.csv')
+	file = File.open(filename, "r")
 	file.readlines.each do |line|
 		name, cohort, hobby = line.chomp.split(',')
 		@students << {:name => name, :cohort => cohort.to_sym, :hobby => hobby}
@@ -97,6 +98,19 @@ def load_students
 	file.close
 	puts "Students loaded from file!"
 end
+
+def try_load_students
+	filename = ARGV.first #1st argument from cmd line
+	return if filename.nil? #get out if no filename
+	if File.exists?(filename) #if it exists
+		load_students(filename)
+		puts "Loaded #{@students.length} from #{filename}"
+	else #if it doesn't exist
+		puts "Sorry #{filename} doesn't exist."
+		exit
+	end
+end
+
 
 =begin
 def print_while(students)
