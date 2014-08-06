@@ -48,6 +48,7 @@ end
 
 def info_collect
 	@name 	= get_input
+	return if @name.empty?
 	@cohort = get_input
 	@cohort = "August" if @cohort.empty?
 	@hobby 	= get_input
@@ -58,15 +59,13 @@ def input_students
 	puts "To finish, just hit return thrice"
 	# get the first name
 	info_collect
-	# while the name is not 5rempty, repeat this code
-	until @name.empty? do
-	# add the student hash to the array
-	student_add(@name, @cohort, @hobby)
-	puts = "Now we have #{@students.length} student#{"s" if @students.length > 1}"
-	# get another name from the user
-	info_collect
+	until @name.empty? 
+		student_add(@name, @cohort, @hobby)
+		puts "Now we have #{@students.length} student#{"s" if @students.length > 1}"
+		info_collect
 	end
 end
+
 
 def show_students
 	puts "The students of the August cohort at Makers Academy:"
@@ -74,28 +73,39 @@ def show_students
 	puts "Overall, we have #{@students.length} great student#{"s" if @students.length > 1 || @students.length == 0}"	 
 end
 
+
+
+
+
+
+#THIS IS BROKEN PLEASE FIX!!!!
+#THIS IS BROKEN PLEASE FIX!!!!
+#THIS IS BROKEN PLEASE FIX!!!!
+#THIS IS BROKEN PLEASE FIX!!!!
+#THIS IS BROKEN PLEASE FIX!!!!
+
 def save_students
-	# open the file for writing
-	File.open("students.csv", "w") do | file |
-	#iterate over students
-	@students.each do |student|
-		student_data = [student[:name], student[:cohort], student[:hobby]]
-		csv_line = student_data.join(",")
-		file.puts csv_line
+	CSV.open("students.csw", "w") do |csv|
+  @students.each do |student|
+    csv << student
 		end
 	end
+	#	@students.each do |row| 
+	#		csv << row
+	#	end
+	#end
 	puts "Students saved!"
 end
 
 def load_students(filename = 'students.csv')
-	CSV.foreach(filename, "r") { | row | student_add(row[0], row[1], row[2]) }
+	CSV.foreach(filename, "r") { |row| student_add(row[0], row[1], row[2]) }
 	puts "Students loaded from file!"
 end
 
 def try_load_students
-	filename = ARGV.first #1st argument from cmd line
-	return if filename.nil? #get out if no filename
-	if File.exists?(filename) #if it exists
+	filename = ARGV.first # 1st argument from cmd line
+	return if filename.nil? # get out if no filename
+	if File.exists?(filename) # if it exists
 		load_students(filename)
 		puts "Loaded #{@students.length} from #{filename}"
 	else #if it doesn't exist
@@ -106,10 +116,3 @@ end
 
 try_load_students
 interactive_menu
-
-#def print_by_cohort
-#	@students.sort[:cohort]
-#	puts "Here are the students by cohort:"
-#	@students.each { |student| puts "#{student[:name]}, #{student[:cohort]}" }
-#end
-
