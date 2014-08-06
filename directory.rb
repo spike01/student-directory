@@ -1,5 +1,15 @@
+require "csv"
+require "pry"
+
+class Students
+	def initialize(name, cohort, hobby)
+		@name 	= name
+		@cohort = cohort
+		@hobby 	= hobby
+	end
+end
+
 @students = []
-name = ""
 
 def interactive_menu
 	loop do
@@ -28,74 +38,57 @@ def menu_input(selection)
 	end
 end
 
-def show_students
-	print_header
-	print_students_list
-	print_footer
-end
-
 def student_add(name, cohort, hobby)
-	@students << {:name => name, :cohort => cohort.to_sym, :hobby => hobby}
+	@students << { :name => name, :cohort => cohort.to_sym, :hobby => hobby }
 end
 
 def get_input
 	STDIN.gets.chomp
 end
 
+def info_collect
+	@name 	= get_input
+	@cohort = get_input
+	@cohort = "August" if @cohort.empty?
+	@hobby 	= get_input
+end
+
 def input_students
 	puts "Please enter the names, cohort and hobby of the students"
 	puts "To finish, just hit return thrice"
 	# get the first name
-	name = get_input
-	cohort = get_input
-	cohort = :august if cohort.empty?
-	hobby = get_input
-	# while the name is not empty, repeat this code
-	while !name.empty? do
+	info_collect
+	# while the name is not 5rempty, repeat this code
+	until @name.empty? do
 	# add the student hash to the array
-	student_add(name, cohort, hobby)
-	puts "Now we have #{@students.length} student" if @students.length == 1
-	puts "Now we have #{@students.length} students" if @students.length >= 2
+	student_add(@name, @cohort, @hobby)
+	puts = "Now we have #{@students.length} student#{"s" if @students.length > 1}"
 	# get another name from the user
-	name = get_input
-	cohort = get_input
-	cohort = :august if cohort.empty?
-	hobby = get_input
+	info_collect
 	end
 end
 
-def print_header
+def show_students
 	puts "The students of the August cohort at Makers Academy:"
-end
-
-def print_students_list
-	@students.each_with_index { |student, index| puts "#{index+1} #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}"}
-end
-
-def print_footer
-	puts "Overall, we have #{@students.length} great students"
+	@students.each_with_index { |student, index| puts "#{index+1}: #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}" }
+	puts "Overall, we have #{@students.length} great student#{"s" if @students.length > 1 || @students.length == 0}"	 
 end
 
 def save_students
 	# open the file for writing
-	file = File.open("students.csv", "w")
+	File.open("students.csv", "w") do | file |
 	#iterate over students
 	@students.each do |student|
 		student_data = [student[:name], student[:cohort], student[:hobby]]
 		csv_line = student_data.join(",")
 		file.puts csv_line
+		end
 	end
 	puts "Students saved!"
-	file.close
 end
 
 def load_students(filename = 'students.csv')
-	file = File.open(filename, "r")
-	file.readlines.each do |line|
-		name, cohort, hobby = line.chomp.split(',')
-		student_add(name, cohort, hobby)
-		end
-	file.close
+	CSV.foreach(filename, "r") { | row | student_add(row[0], row[1], row[2]) }
 	puts "Students loaded from file!"
 end
 
@@ -114,9 +107,9 @@ end
 try_load_students
 interactive_menu
 
-def print_by_cohort
-	@students.sort[:cohort]
-	puts "Here are the students by cohort:"
-	@students.each { |student| puts "#{student[:name]}, #{student[:cohort]}" }
-end
+#def print_by_cohort
+#	@students.sort[:cohort]
+#	puts "Here are the students by cohort:"
+#	@students.each { |student| puts "#{student[:name]}, #{student[:cohort]}" }
+#end
 
