@@ -14,7 +14,7 @@ def interactive_menu
 	loop do
 		# First, print a menu and get the user's input
 		print_menu
-		menu_input(STDIN.gets.chomp)
+		menu_input(get_input)
 	end
 end
 
@@ -71,13 +71,13 @@ end
 
 def student_sort
   puts "What would you like to search by?"
-  search = gets.chomp.to_sym
+  search = get_input.downcase.to_sym
   @students.sort_by! { |student| student[search] }
   show_students
 end
 
 def show_students
-	puts "The students of the August cohort at Makers Academy:"
+	puts "The students of Makers Academy:"
 	@students.each_with_index { |student, index| puts "#{index+1}: #{student[:name]} (#{student[:cohort].capitalize} cohort) #{student[:hobby]}" }
 	puts "Overall, we have #{@students.length} great student#{plural}"	 
 end
@@ -85,7 +85,7 @@ end
 def load_save(choice)
   print "Where would you like to "  
   puts choice == "save" ? "save to?" : "load from?"
-  filename = gets.chomp
+  filename = get_input
   choice == "save" ? save_students(filename) : load_students(filename)            
 end
 
