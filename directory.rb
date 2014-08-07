@@ -59,7 +59,7 @@ end
 
 def input_students
 	puts "Please enter the names, cohort and hobby of the students"
-	puts "To finish, just hit return thrice"
+	puts "To finish, leave name blank"
 	# get the first name
 	info_collect
 	until @name.empty? 
@@ -78,7 +78,7 @@ end
 
 def show_students
 	puts "The students of the August cohort at Makers Academy:"
-	@students.each_with_index { |student, index| puts "#{index+1}: #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}" }
+	@students.each_with_index { |student, index| puts "#{index+1}: #{student[:name]} (#{student[:cohort].capitalize} cohort) #{student[:hobby]}" }
 	puts "Overall, we have #{@students.length} great student#{plural}"	 
 end
 
