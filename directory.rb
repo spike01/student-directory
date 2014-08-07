@@ -29,7 +29,7 @@ end
 def menu_input(selection)
 	case selection
 	when "1" then input_students
-	when "2" then show_students
+	when "2" then student_sort
 	when "3" then load_save("save")
 	when "4" then load_save("load") 
 	when "9" then exit 
@@ -69,18 +69,17 @@ def input_students
 	end
 end
 
+def student_sort
+  puts "What would you like to search by?"
+  search = gets.chomp.to_sym
+  @students.sort_by! { |student| student[search] }
+  show_students
+end
+
 def show_students
 	puts "The students of the August cohort at Makers Academy:"
 	@students.each_with_index { |student, index| puts "#{index+1}: #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}" }
 	puts "Overall, we have #{@students.length} great student#{plural}"	 
-end
-
-def save_students(filename = 'students.csv')
-	CSV.open(filename, "w") do |csvpush|
-		@students.each { |student| csvpush << student.values }
-		end	 
-	puts "Students saved!"
-  
 end
 
 def load_save(choice)
@@ -88,6 +87,13 @@ def load_save(choice)
   puts choice == "save" ? "save to?" : "load from?"
   filename = gets.chomp
   choice == "save" ? save_students(filename) : load_students(filename)            
+end
+
+def save_students(filename = 'students.csv')
+	CSV.open(filename, "w") do |csvpush|
+		@students.each { |student| csvpush << student.values }
+		end	 
+	puts "Students saved!"
 end
 
 def load_students(filename = 'students.csv')
