@@ -30,15 +30,15 @@ def menu_input(selection)
 	case selection
 	when "1" then input_students
 	when "2" then show_students
-	when "3" then save_students
-	when "4" then load_students
+	when "3" then load_save("save")
+	when "4" then load_save("load") 
 	when "9" then exit 
 	else puts "I don't know what you meant, try again."
 	end
 end
 
 def student_add(name, cohort, hobby)
-	@students << { :name => name, :cohort => cohort.to_sym, :hobby => hobby }
+	@students << { name: name, cohort: cohort.to_sym, hobby: hobby }
 end
 
 def get_input
@@ -53,6 +53,10 @@ def info_collect
 	@hobby 	= get_input
 end
 
+def plural
+  "s" if @students.length > 1
+end
+
 def input_students
 	puts "Please enter the names, cohort and hobby of the students"
 	puts "To finish, just hit return thrice"
@@ -60,7 +64,7 @@ def input_students
 	info_collect
 	until @name.empty? 
 		student_add(@name, @cohort, @hobby)
-		puts "Now we have #{@students.length} student#{"s" if @students.length > 1}"
+		puts "Now we have #{@students.length} student#{plural}"
 		info_collect
 	end
 end
@@ -68,15 +72,22 @@ end
 def show_students
 	puts "The students of the August cohort at Makers Academy:"
 	@students.each_with_index { |student, index| puts "#{index+1}: #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}" }
-	puts "Overall, we have #{@students.length} great student#{"s" if @students.length > 1 || @students.length == 0}"	 
+	puts "Overall, we have #{@students.length} great student#{plural}"	 
 end
 
-def save_students
-	CSV.open("students.csv", "w") do |csvpush|
+def save_students(filename = 'students.csv')
+	CSV.open(filename, "w") do |csvpush|
 		@students.each { |student| csvpush << student.values }
 		end	 
 	puts "Students saved!"
   
+end
+
+def load_save(choice)
+  print "Where would you like to "  
+  puts choice == "save" ? "save to?" : "load from?"
+  filename = gets.chomp
+  choice == "save" ? save_students(filename) : load_students(filename)            
 end
 
 def load_students(filename = 'students.csv')
