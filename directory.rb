@@ -66,35 +66,20 @@ def input_students
 	end
 end
 
-
 def show_students
 	puts "The students of the August cohort at Makers Academy:"
 	@students.each_with_index { |student, index| puts "#{index+1}: #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}" }
 	puts "Overall, we have #{@students.length} great student#{"s" if @students.length > 1 || @students.length == 0}"	 
 end
 
-
-
-
-
-
-#THIS IS BROKEN PLEASE FIX!!!!
-#THIS IS BROKEN PLEASE FIX!!!!
-#THIS IS BROKEN PLEASE FIX!!!!
-#THIS IS BROKEN PLEASE FIX!!!!
 #THIS IS BROKEN PLEASE FIX!!!!
 
 def save_students
-	CSV.open("students.csw", "w") do |csv|
-  @students.each do |student|
-    csv << student
-		end
-	end
-	#	@students.each do |row| 
-	#		csv << row
-	#	end
-	#end
+	CSV.open("students.csv", "w") do |csvpush|
+		@students.each { |student| csvpush << student.values }
+		end	 
 	puts "Students saved!"
+  
 end
 
 def load_students(filename = 'students.csv')
