@@ -1,5 +1,4 @@
 require "csv"
-require "pry"
 
 class Students
 	def initialize(name, cohort, hobby)
@@ -71,8 +70,6 @@ def show_students
 	@students.each_with_index { |student, index| puts "#{index+1}: #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobby]}" }
 	puts "Overall, we have #{@students.length} great student#{"s" if @students.length > 1 || @students.length == 0}"	 
 end
-
-#THIS IS BROKEN PLEASE FIX!!!!
 
 def save_students
 	CSV.open("students.csv", "w") do |csvpush|
